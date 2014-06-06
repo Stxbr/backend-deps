@@ -119,10 +119,10 @@ handle_cast({send, Module, Pid, Line, Who, Level, Msg}, State) ->
     {ok, Hostname} = inet:gethostname(),
     %%State#state.facility
     {ok, Facility} = application:get_env(facility),
-    Packet = [io_lib:format("<~B>", [(atom_to_facility(Facility) bor atom_to_level(Level))+48]),
+    Packet = [io_lib:format("<~B>", [(atom_to_facility(Facility) bor atom_to_level(Level))]),
         timestamp(), " ", Hostname, " ",
         atom_to_list(Who), "/", Module,
-        io_lib:format("@~s: ",[Line]),
+        io_lib:format("[~p]: ~p: ", [Pid, Line]),
         Msg, "\n"],
     do_send(State, Packet),
     {noreply, State}.

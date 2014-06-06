@@ -191,7 +191,7 @@ json_encode_string(B, State) when is_binary(B) ->
         true ->
             [?Q, B, ?Q];
         false ->
-            json_encode_string_unicode(xmerl_ucs:from_utf8(B), State, [?Q])
+            [?Q, xmerl_ucs:from_utf8(B), ?Q]
     end;
 json_encode_string(I, _State) when is_integer(I) ->
     [?Q, integer_to_list(I), ?Q];

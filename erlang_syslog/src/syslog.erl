@@ -1,5 +1,5 @@
 %% Copyright (c) 2010 Jacob Vorreuter <jacob.vorreuter@gmail.com>
-%% 
+%%
 %% Permission is hereby granted, free of charge, to any person
 %% obtaining a copy of this software and associated documentation
 %% files (the "Software"), to deal in the Software without
@@ -8,10 +8,10 @@
 %% copies of the Software, and to permit persons to whom the
 %% Software is furnished to do so, subject to the following
 %% conditions:
-%% 
+%%
 %% The above copyright notice and this permission notice shall be
 %% included in all copies or substantial portions of the Software.
-%% 
+%%
 %% THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
 %% EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 %% OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
@@ -29,12 +29,12 @@
 
 
 %% gen_server callbacks
--export([init/1, handle_call/3, handle_cast/2, 
+-export([init/1, handle_call/3, handle_cast/2,
          handle_info/2, terminate/2, code_change/3, timestamp/0]).
 
 %% api callbacks
 -export([
-    start_link/0, 
+    start_link/0,
     %%send/3,
     %%send/4,
     send/7,
@@ -81,7 +81,7 @@ settings(Ip, Port, Facility) ->
 %%--------------------------------------------------------------------
 init([]) ->
     case gen_udp:open(0) of
-        {ok, Socket} -> 
+        {ok, Socket} ->
             %%ejabberd_logger:debug_msg(?MODULE,?LINE,"syslog start ~p", []),
             ok = settings({127,0,0,1}, 514, user),
             {ok, Hostname} = inet:gethostname(),
@@ -126,7 +126,7 @@ handle_cast({send, Module, Pid, Line, Who, Level, Msg}, State) ->
         Msg, "\n"],
     do_send(State, Packet),
     {noreply, State}.
-    
+
 %%--------------------------------------------------------------------
 %% Function: handle_info(Info, State) -> {noreply, State} |
 %%                                       {noreply, State, Timeout} |
@@ -160,13 +160,13 @@ do_send(#state{socket=Socket}, Packet) ->
     {ok, IP} = application:get_env(ip),
     {ok, Port} = application:get_env(port),
     gen_udp:send(Socket, IP, Port, Packet).
-    
-atom_to_level(emergency) -> 0; % system is unusable 
-atom_to_level(alert) -> 1; % action must be taken immediately 
-atom_to_level(critical) -> 2; % critical conditions 
-atom_to_level(error) -> 3; % error conditions 
-atom_to_level(warning) -> 4; % warning conditions 
-atom_to_level(notice) -> 5; % normal but significant condition 
+
+atom_to_level(emergency) -> 0; % system is unusable
+atom_to_level(alert) -> 1; % action must be taken immediately
+atom_to_level(critical) -> 2; % critical conditions
+atom_to_level(error) -> 3; % error conditions
+atom_to_level(warning) -> 4; % warning conditions
+atom_to_level(notice) -> 5; % normal but significant condition
 atom_to_level(info) -> 6; % informational
 atom_to_level(debug) -> 7. % debug-level messages
 

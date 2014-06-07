@@ -59,7 +59,7 @@ send(Module, Pid, Line, Who, Level, Msg, Args)
 %%        when is_integer(Line), is_atom(Who), is_atom(Level), is_list(Msg) ->
     ->
     %%?INFO_MSG("send ~p", [Module, Pid, Line, Who, Level, Msg]),
-    ejabberd_logger:debug_msg(?MODULE,?LINE,"syslog send ~p", [Module, Pid, Line, Who, Level, Msg]),
+    %%ejabberd_logger:debug_msg(?MODULE,?LINE,"syslog send ~p", [Module, Pid, Line, Who, Level, Msg]),
     gen_server:cast(?MODULE, {send, Module, Pid, Line, Who, Level, io_lib:format(Msg, Args)}).
 
 settings(Ip, Port, Facility) ->

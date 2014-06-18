@@ -285,7 +285,7 @@ do_build_payload([], Payload) ->
 
 -spec send_payload(tuple(), binary(), non_neg_integer(), binary(), iolist()) -> ok | {error, term()}.
 send_payload(Socket, MsgId, Expiry, BinToken, Payload) ->
-    BinPayload = list_to_binary(Payload),
+    BinPayload = unicode:characters_to_binary(Payload),
     PayloadLength = erlang:size(BinPayload),
     Packet = [<<1:8, MsgId/binary, Expiry:4/big-unsigned-integer-unit:8,
                 32:16/big,

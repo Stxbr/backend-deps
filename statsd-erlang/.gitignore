@@ -1,5 +1,0 @@
-*.beam
-doc
-.eunit
-.idea
-deps/*

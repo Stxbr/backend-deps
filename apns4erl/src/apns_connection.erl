@@ -72,8 +72,11 @@ open_out(Connection) ->
     Filename -> [{keyfile, filename:absname(Filename)}]
   end,
   SslOpts = [
-    {certfile, filename:absname(Connection#apns_connection.cert_file)},
-    {mode, binary} | KeyFile
+             {certfile, filename:absname(Connection#apns_connection.cert_file)},
+             {send_timeout, 5000},
+             {send_timeout_close, true},
+             {active, true},
+             {mode, binary} | KeyFile
   ],
   RealSslOpts = case Connection#apns_connection.cert_password of
     undefined -> SslOpts;

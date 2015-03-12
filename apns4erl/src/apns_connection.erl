@@ -237,9 +237,11 @@ build_payload(#apns_msg{alert = Alert,
                         sound = Sound,
                         apns_extra=Apns_Extra,
                         content_available = Content_Available,
+                        action = Action,
                         extra = Extra}) ->
     build_payload([{alert, Alert},
                    {badge, Badge},
+                   {action, Action},
                    {sound, Sound}] ++ Apns_Extra, Extra, Content_Available).
 
 build_payload(Params, Extra, Content_Available) ->

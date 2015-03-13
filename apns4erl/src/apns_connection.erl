@@ -133,7 +133,6 @@ handle_cast(Msg, State=#state{out_socket=undefined,connection=Connection}) ->
   catch
     _:{error, Reason2} -> {stop, Reason2}
   end;
-
 handle_cast(Msg, State) when is_record(Msg, apns_msg) ->
   Socket = State#state.out_socket,
   Payload = build_payload(Msg),
@@ -149,7 +148,7 @@ handle_cast({Msg, Token}, State) ->
   Socket = State#state.out_socket,
   Payload = build_payload(Msg),
   BinToken = Token,
-  case send_payload(Socket, <<"MsgId">>, 1000000, BinToken, Payload) of
+  case send_payload(Socket, <<"MsgId">>, apns:expiry(86400), BinToken, Payload) of
     ok ->
       {noreply, State};
     {error, Reason} ->

@@ -148,7 +148,7 @@ handle_cast({Msg, Token}, State) ->
   Socket = State#state.out_socket,
   Payload = build_payload(Msg),
   BinToken = Token,
-  case send_payload(Socket, <<"MsgId">>, apns:expiry(86400), BinToken, Payload) of
+  case send_payload(Socket, apns:message_id(), apns:expiry(86400), BinToken, Payload) of
     ok ->
       {noreply, State};
     {error, Reason} ->

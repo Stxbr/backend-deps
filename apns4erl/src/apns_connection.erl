@@ -145,6 +145,18 @@ handle_cast(Msg, State) when is_record(Msg, apns_msg) ->
       {stop, {error, Reason}, State}
   end;
 
+handle_cast({Msg, Token}, State) ->
+  Socket = State#state.out_socket,
+  Payload = build_payload(Msg),
+  BinToken = Token,
+  case send_payload(Socket, <<"MsgId">>, 1000000, BinToken, Payload) of
+    ok ->
+      {noreply, State};
+    {error, Reason} ->
+      {stop, {error, Reason}, State}
+  end;
+
+
 handle_cast(stop, State) ->
   {stop, normal, State}.
 
@@ -242,7 +254,9 @@ build_payload(#apns_msg{alert = Alert,
     build_payload([{alert, Alert},
                    {badge, Badge},
                    {action, Action},
-                   {sound, Sound}] ++ Apns_Extra, Extra, Content_Available).
+                   {sound, Sound}] ++ Apns_Extra, Extra, Content_Available);
+build_payload(Payload) ->
+    apns_mochijson2:encode(Payload).
 
 build_payload(Params, Extra, Content_Available) ->
   apns_mochijson2:encode({[{<<"aps">>,
@@ -298,7 +312,7 @@ send_payload(Socket, MsgId, Expiry, BinToken, Payload) ->
                 PayloadLength:16/big,
                 BinPayload/binary>>],
     error_logger:info_msg("Sending msg ~p (expires on ~p)~n",
-                         [MsgId, Expiry]),
+                         [Payload, Expiry]),
     ssl:send(Socket, Packet).
 
 hexstr_to_bin(S) ->

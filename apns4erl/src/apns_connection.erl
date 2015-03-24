@@ -147,7 +147,7 @@ handle_cast(Msg, State) when is_record(Msg, apns_msg) ->
 handle_cast({Msg, Token}, State) ->
   Socket = State#state.out_socket,
   Payload = build_payload(Msg),
-  BinToken = Token,
+  BinToken = hexstr_to_bin(erlang:binary_to_list(Token)),
   case send_payload(Socket, apns:message_id(), apns:expiry(86400), BinToken, Payload) of
     ok ->
       {noreply, State};

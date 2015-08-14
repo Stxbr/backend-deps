@@ -3,10 +3,10 @@
     url = https://github.com/processone/ejabberd.git
     ignore = dirty
 [submodule "erlcloud"]
-	path = erlcloud
-	url = git@github.com:ZachGoldberg/erlcloud.git
+    path = erlcloud
+    url = git@github.com:ZachGoldberg/erlcloud.git
     ignore = dirty
 [submodule "mochiweb"]
-	path = mochiweb
-	url = git@github.com:ZachGoldberg/mochiweb.git
+    path = mochiweb
+    url = git@github.com:ZachGoldberg/mochiweb.git
     ignore = dirty

@@ -15,8 +15,8 @@
 ]).
 
 -define(BATCH_SIZE, 50).
--define(REQUEST_TIMEOUT, 2 * 60000).
--define(FLUSH_TIMEOUT, 60000).
+-define(REQUEST_TIMEOUT, 2 * 5000).
+-define(FLUSH_TIMEOUT, 1000).
 
 
 -type event()      :: {Name :: atom(), mixpanel:properties(), non_neg_integer()}.

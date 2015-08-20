@@ -30,7 +30,7 @@
 start_link() ->
 	gen_server:start_link(?MODULE, [], []).
 
--spec track(pid(), atom(), mixpanel:properties(), erlang:timestamp()) -> ok.
+-spec track(pid(), atom(), mixpanel:properties(), erlang:datetime()) -> ok.
 track(Pid, EventName, Properties, Timestamp) ->
 	gen_server:cast(Pid, {track, {EventName, Properties, Timestamp}}).
 
@@ -138,12 +138,12 @@ track_i(Token, Events, RequestType, ApiKey) ->
 		{[
 			{event, Event},
 			{properties, {[
-				{time, MegaSecs * 1000000 + Secs},
+				{time, iso8601:format(Time)},
 				{token, Token} |
 				Properties
 			]}}
 		]}
-	end || {Event, Properties, {MegaSecs, Secs, _}} <- Events], [force_utf8])),
+	end || {Event, Properties, Time} <- Events], [force_utf8])),
 
 	Headers = [{<<"content-type">>, <<"x-www-form-urlencoded">>}],
 	Payload1 = <<"data=", Data/binary>>,
@@ -182,9 +182,8 @@ request_i(Method, Url, Headers, Payload) ->
 			{error, timeout}
 	end.
 
-must_import({_Event, _Properties, EventTimestamp}) ->
+must_import({_Event, _Properties, EventDateTime}) ->
 	NowDateTime = calendar:universal_time(),
-	EventDateTime = calendar:now_to_universal_time(EventTimestamp),
 	NowUTC = datetime_to_utc(NowDateTime),
 	EventUTC = datetime_to_utc(EventDateTime),
 	NowUTC - EventUTC > 24 * 60 * 60 * 5 - 120.

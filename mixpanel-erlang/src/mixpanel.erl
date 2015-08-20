@@ -32,8 +32,8 @@ ensure_started(App) ->
 
 -spec track(atom(), properties()) -> ok.
 track(Event, Properties) ->
-	track(Event, Properties, os:timestamp()).
+	track(Event, Properties, calendar:universal_time()).
 
--spec track(atom(), properties(), erlang:timestamp()) -> ok.
+-spec track(atom(), properties(), erlang:datetime()) -> ok.
 track(Event, Properties, Timestamp) ->
 	mixpanel_worker:track(mixpanel_workers:get(), Event, Properties, Timestamp).

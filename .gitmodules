@@ -10,3 +10,6 @@
     path = mochiweb
     url = git@github.com:ZachGoldberg/mochiweb.git
     ignore = dirty
+[submodule "erlport"]
+	path = erlport
+	url = https://github.com/hdima/erlport.git

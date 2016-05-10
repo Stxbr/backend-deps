@@ -4,7 +4,7 @@
     ignore = dirty
 [submodule "erlcloud"]
     path = erlcloud
-    url = git@github.com:ZachGoldberg/erlcloud.git
+    url = git@github.com:Stxbr/erlcloud.git
     ignore = dirty
 [submodule "mochiweb"]
     path = mochiweb
